@@ -33,18 +33,29 @@ leaderboardRouter.route('/:userId')
         res.json(req.leaderboard)
     })	//get
     .put((req,res) => {
-		if(req.leaderboard.score != req.body.score)
+		
+		if(req.body.username)
+		{			
+			req.leaderboard.username = req.body.username;
+		}
+		
+		if(req.body.score && req.leaderboard.score != req.body.score)
 		{
 			// emit one signal to client
 			var io = req.app.get('socketio');			
-			io.emit('UpdateScore', req.body.username);
+			io.emit('UpdateScore', req.leaderboard.username);
 		}
-        req.leaderboard.username = req.body.username;
-        req.leaderboard.score = req.body.score;
-        req.leaderboard.updateHistory = req.body.updateHistory;
-        req.leaderboard.save()
-        res.json(req.leaderboard)
 		
+		if(req.body.score)
+		{
+			req.leaderboard.score = req.body.score;
+		}
+		
+		if(req.body.username || req.body.score)
+		{
+			req.leaderboard.save()
+			res.json(req.leaderboard)
+		}
 		
     })	//put
     .delete((req,res)=>{

@@ -6,7 +6,7 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input[type=text] { border: 0; padding: 10px; width: 50%; margin-right: .5%; }
+      form textarea{ border: 1 solid; padding: 10px; width: 100%; margin-right: .5%; }
       form input[type=button] { width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       form button { width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
@@ -16,10 +16,13 @@
   </head>
   <body>
     <ul id="messages"></ul>
-	<form method="post" name="form1" id="form1">
-		<input type="text" id="message" autocomplete="off" />
+	<!-- <form method="post" name="form1" id="form1"> -->
+	<form>
+		<!-- <input type="text" id="message" autocomplete="off" /> -->
+		<textarea name="message" id="message" cols="40" rows="10"></textarea>
+		<li>
 		<input type="button" id="connectBtn" value="Connect" onclick="ConnectClicked()">
-		<input type="button" id="newUserBtn" value="New User" onclick="NewUserClicked()">
+		<input type="button" id="newUserBtn" value="New User" onclick="NewUserClicked()">		
 		<input type="button" id="updateBtn" value="Update" onclick="UpdateClicked()" disabled="disabled">
 		<input type="button" id="deleteBtn" value="Delete" onclick="DeleteClicked()" disabled="disabled">
 	</form>
