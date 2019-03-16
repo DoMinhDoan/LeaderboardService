@@ -21,18 +21,26 @@
 	<div id="cont"></div>
 	<ul id="messages"></ul>
 	<form>
-		<input type="button" id="refresh" value="Refresh" onclick="GetAllClicked()">
+		<input type="button" id="refresh" value="Refresh" onclick="RefreshClicked()">
 	</form>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-	
+
+
+		
 		var socket = io();
 		const Url = 'http://localhost:3000/api/leaderboard';
 		var playerID = "";
 		
+		function RefreshClicked() {			
+			$('#cont').empty();
+			createTable();
+		}
+		
 		function GetAllClicked() {
+			
 			$.getJSON(Url, function(result) {					
 				for (i in result) {
 					addRow(result[i]);
@@ -96,7 +104,7 @@
 			var div = document.getElementById('cont');
 			div.appendChild(empTable);    // ADD THE TABLE TO YOUR WEB PAGE.
 			
-			GetAllClicked();
+			GetAllClicked();	
 		}
 
 		// ADD A NEW ROW TO THE TABLE.s
@@ -132,7 +140,7 @@
 					
 					if (c == 1)	//username
 					{
-						ele = document.createTextNode(user._id);
+						ele = document.createTextNode(user._id);						
 					}
 					else if (c == 2)	//username
 					{
@@ -144,7 +152,13 @@
 					}
 					else	//update history
 					{
-						ele = document.createTextNode(user.updateHistory);
+						var textedJson = JSON.stringify(user.updateHistory, undefined, 4);
+						ele = document.createElement("textarea");				
+						ele.readOnly  = true;				
+						ele.cols = "50";
+						ele.rows = "10";						
+						var textNode = document.createTextNode(textedJson);
+						ele.appendChild(textNode);
 					}
 					
 					td.appendChild(ele);

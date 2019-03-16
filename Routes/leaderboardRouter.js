@@ -41,6 +41,11 @@ leaderboardRouter.route('/:userId')
 		
 		if(req.body.score && req.leaderboard.score != req.body.score)
 		{
+			var seconds = new Date().getTime() / 1000;
+			
+			req.leaderboard.updateHistory.numberUpdate = req.leaderboard.updateHistory.numberUpdate + 1;			
+			req.leaderboard.updateHistory.timeChange.push(seconds);
+			
 			// emit one signal to client
 			var io = req.app.get('socketio');			
 			io.emit('UpdateScore', req.leaderboard.username);
