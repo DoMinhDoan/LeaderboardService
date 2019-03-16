@@ -5,11 +5,13 @@ var port = process.env.PORT || 3000;
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-// var uuid = require("uuid");
 
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const leadboardRouter = require("./Routes/leaderboardRouter");
+var redis = require('redis');
+var redisClient = redis.createClient(); // this creates a new client
+
+var mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+var leadboardRouter = require("./Routes/leaderboardRouter");
 
 server.listen(port);
 console.log("server started on port " + port);
@@ -22,6 +24,18 @@ const con = mongoose
   )
   .then(() => console.log("mongoDB connected"))
   .catch(err => console.log(err));
+  
+  
+// redis database
+redisClient.on('connect', function() {
+    console.log('Redis client connected');
+});
+
+redisClient.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
+
+app.set('redisio', redisClient);
 
 // setting body parser middleware 
 app.use(bodyParser.json());
