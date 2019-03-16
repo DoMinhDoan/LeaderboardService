@@ -4,22 +4,20 @@ const leaderboardRouter = express.Router();
 leaderboardRouter.route('/')
     .get((req, res) => {
         Leaderboard.find({}, (err, leaderboard) => {
-            console.log('leaderboardRouter / GET');
-			res.json(leaderboard)
+			res.json(leaderboard);
         })  
     })
     .post((req, res) => {
         let leaderboard = new Leaderboard(req.body);
         leaderboard.save();
-        res.status(201).send(leaderboard) 
+        res.status(201).send(leaderboard);
     })
 
 // Middleware 
 leaderboardRouter.use('/:userId', (req, res, next)=>{
     Leaderboard.findById( req.params.userId, (err,leaderboard)=>{
         if(err) {
-            res.status(500).send(err)
-			console.log('leaderboardRouter userId : ' + err);
+            res.status(500).send(err);
 		}
         else {
             req.leaderboard = leaderboard;
@@ -30,7 +28,7 @@ leaderboardRouter.use('/:userId', (req, res, next)=>{
 })
 leaderboardRouter.route('/:userId')
     .get((req, res) => {
-        res.json(req.leaderboard)
+        res.json(req.leaderboard);
     })	//get
     .put((req,res) => {
 		
@@ -58,18 +56,18 @@ leaderboardRouter.route('/:userId')
 		
 		if(req.body.username || req.body.score)
 		{
-			req.leaderboard.save()
-			res.json(req.leaderboard)
+			req.leaderboard.save();
+			res.json(req.leaderboard);
 		}
 		
     })	//put
     .delete((req,res)=>{
         req.leaderboard.remove(err => {
             if(err){
-                res.status(500).send(err)
+                res.status(500).send(err);
             }
             else{
-                res.status(204).send('removed')
+                res.status(204).send('removed');
             }
         })
     })	//delete
