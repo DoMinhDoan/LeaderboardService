@@ -4,7 +4,8 @@ const leaderboardRouter = express.Router();
 leaderboardRouter.route('/')
     .get((req, res) => {
         Leaderboard.find({}, (err, leaderboard) => {
-            res.json(leaderboard)
+            console.log('leaderboardRouter / GET');
+			res.json(leaderboard)
         })  
     })
     .post((req, res) => {
@@ -16,8 +17,10 @@ leaderboardRouter.route('/')
 // Middleware 
 leaderboardRouter.use('/:userId', (req, res, next)=>{
     Leaderboard.findById( req.params.userId, (err,leaderboard)=>{
-        if(err)
+        if(err) {
             res.status(500).send(err)
+			console.log('leaderboardRouter userId : ' + err);
+		}
         else {
             req.leaderboard = leaderboard;
             next()
@@ -35,17 +38,14 @@ leaderboardRouter.route('/:userId')
         req.leaderboard.updateHistory = req.body.updateHistory;
         req.leaderboard.save()
         res.json(req.leaderboard)
+		
+		// emit one signal to client
+		var io = req.app.get('socketio');
+		
+		console.log('leaderboardRouter : UpdateScore' + req.body.username);
+		
+		io.emit('UpdateScore', req.body.username);
     })	//put
-    .patch((req,res)=>{
-        if(req.body._id){
-            delete req.body._id;
-        }
-        for( let p in req.body ){
-            req.leaderboard[p] = req.body[p]
-        }
-        req.leaderboard.save()
-        res.json(req.leaderboard)
-    })	//patch
     .delete((req,res)=>{
         req.leaderboard.remove(err => {
             if(err){

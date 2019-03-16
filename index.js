@@ -5,7 +5,7 @@ var port = process.env.PORT || 3000;
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var uuid = require("uuid");
+// var uuid = require("uuid");
 
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -26,6 +26,7 @@ const con = mongoose
 // setting body parser middleware 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('socketio', io);
 
 // API routes
 app.use('/api/leaderboard', leadboardRouter);
@@ -35,14 +36,14 @@ app.use('/api/leaderboard', leadboardRouter);
 
 var players = [];
 
-// app.get('/', function (req, res) {
-  // res.sendFile(__dirname + '/index.html');
-// });
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log('my other event' + data);
-  });
+  console.log('...a user connected...');
+  socket.on('disconnect', function(){
+    console.log('...a user disconnected...');
+  });  
 });
 
