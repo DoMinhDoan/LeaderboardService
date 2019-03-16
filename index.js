@@ -19,7 +19,8 @@ console.log("server started on port " + port);
 // Connecting to the database
 const con = mongoose
   .connect(
-    process.env.DB_ADDRESS,
+    // process.env.DB_ADDRESS,
+	'mongodb://127.0.0.1:27017/user-api',
     { useNewUrlParser: true } //need this for api support
   )
   .then(() => console.log("mongoDB connected"))
