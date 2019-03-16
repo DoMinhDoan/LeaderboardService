@@ -33,18 +33,19 @@ leaderboardRouter.route('/:userId')
         res.json(req.leaderboard)
     })	//get
     .put((req,res) => {
+		if(req.leaderboard.score != req.body.score)
+		{
+			// emit one signal to client
+			var io = req.app.get('socketio');			
+			io.emit('UpdateScore', req.body.username);
+		}
         req.leaderboard.username = req.body.username;
         req.leaderboard.score = req.body.score;
         req.leaderboard.updateHistory = req.body.updateHistory;
         req.leaderboard.save()
         res.json(req.leaderboard)
 		
-		// emit one signal to client
-		var io = req.app.get('socketio');
 		
-		console.log('leaderboardRouter : UpdateScore' + req.body.username);
-		
-		io.emit('UpdateScore', req.body.username);
     })	//put
     .delete((req,res)=>{
         req.leaderboard.remove(err => {
