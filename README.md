@@ -5,7 +5,7 @@
 
 Implement a leaderboard service that could be consumed by a game client.  This service will be run on a remote server from the client.
 
-## API's:
+## API's Supported
 
 * HTTP REST
 * Persistent Socket Connection
@@ -19,13 +19,22 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 1. As an administrator I should be able to delete a username and score.
 
 
-## Upgrading
+## Frameworks
 
-
+* Database
+	* MongoDB - Mongoose - for normal query
+	* Redis - for heavy query like leaderboard
+* Environment
+	* Nodejs
+	* Express
+	* SocketIO
+	* Body-parser
 
 ## Setup
 
-
+1. Clone .env.template -> .env then config with correctly url/post for MongoDB + Redis.
+2. There is docker-compose where you can setup one docker with MongoDB + Redis on localhost
+3. From project folder, Run `node index.js`
 
 ## Run the Project
 
