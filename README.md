@@ -38,7 +38,7 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 
 ## API's Testcase
 
-1. User : `http://localhost:3000/`
+1. __User__ : `http://localhost:3000/`
 	* _Click_ `New User` if you are new and want to connect to services.
 	* Or _Input_ your id (_id and key for the user) to login.
 		* Input id ( ex : `5c8dcb1966bacc078c3b63a7`) -> `Connect`
@@ -50,7 +50,7 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 		* Like `User New Name updated with new score`.
 	* If you would like to have the new life, try to click `Delete`.
 	
-2. Administrator : `http://localhost:3000/admin`
+2. __Administrator__ : `http://localhost:3000/admin`
 	* As an administrator I should be able to delete a username and score.
 		* Click `Delete` button on each table row.
 	* In here, you can see more detail about your user : the change score count and what time they did.
@@ -59,9 +59,9 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 		* Input in format : `{"start":"2016-11-22T17:14:00","stop":"2020-11-22T17:14:00"}`
 		
 		
-3. Postman
+3. __Postman__
 	* All APIs designed that Postman can perform test quickly.
-	* GET
+	* _GET_
 		* http://localhost:3000/api/leaderboard/all
 			* Get all user information.
 		* http://localhost:3000/api/leaderboard/
@@ -72,17 +72,17 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 		* http://localhost:3000/api/leaderboard/count/{start-stop}
 			* Get info for users who upadted their score begin from start and end at stop time.
 			* Ex : `http://localhost:3000/api/leaderboard/count/1552800213-1552800214.5`
-	* POST
+	* _POST_
 		* http://localhost:3000/api/leaderboard/
 			* Added new user
 			* Json body with content need to add.
 			* Ex : `{"username":"MDoan","score":100}`
-	* PUT
+	* _PUT_
 		* http://localhost:3000/api/leaderboard/{userID}
 			* Update with new info.
 			* Json body with content need to update.
 			* Ex : {"username":"HaiAnh","score":100}
-	* DELETE
+	* _DELETE_
 		* http://localhost:3000/api/leaderboard/{userID}
 			* Delete the user by ID.		
 
