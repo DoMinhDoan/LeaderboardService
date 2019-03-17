@@ -36,19 +36,11 @@ redisClient.on('error', function (err) {
 });
 
 app.set('redisio', redisClient);
+app.set('socketio', io);
 
 // setting body parser middleware 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('socketio', io);
-
-// API routes
-app.use('/api/leaderboard', leadboardRouter);
-
-
-// Persistent Socket Connection
-
-var players = [];
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -63,6 +55,11 @@ app.get('/admin/statistics', function (req, res) {
 });
 
 
+// API routes
+app.use('/api/leaderboard', leadboardRouter);
+
+
+// Persistent Socket Connection
 io.on('connection', function (socket) {
   console.log('...a user connected...');
   socket.on('disconnect', function(){
