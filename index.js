@@ -7,7 +7,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var redis = require('redis');
-var redisClient = redis.createClient(); // this creates a new client
+var redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_ADDRESS); // this creates a new client
 
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
@@ -19,8 +19,7 @@ console.log("server started on port " + port);
 // Connecting to the database
 const con = mongoose
   .connect(
-    // process.env.DB_ADDRESS,
-	'mongodb://127.0.0.1:27017/user-api',
+		process.env.MONGO_ADDRESS,
     { useNewUrlParser: true } //need this for api support
   )
   .then(() => console.log("mongoDB connected"))
