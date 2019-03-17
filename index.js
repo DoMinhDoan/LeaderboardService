@@ -58,6 +58,11 @@ app.get('/admin', function (req, res) {
   res.sendFile(__dirname + '/admin.html');
 });
 
+app.get('/admin/statistics', function (req, res) {
+  res.sendFile(__dirname + '/statistics.html');
+});
+
+
 io.on('connection', function (socket) {
   console.log('...a user connected...');
   socket.on('disconnect', function(){

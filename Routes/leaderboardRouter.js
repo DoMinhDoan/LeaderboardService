@@ -39,6 +39,32 @@ leaderboardRouter.route('/all')
 			res.json(leaderboard);
         })  
     })
+	
+leaderboardRouter.route('/count/:time')
+    .get((req, res) => {
+		var timeList = req.params.time.split("-");
+		if(timeList.length == 2)
+		{		
+			Leaderboard.find({'updateHistory.timeChange': { $gt: Number(timeList[0]), $lt: Number(timeList[1])},}, (err, leaderboard) => {
+				if(leaderboard)
+				{
+					var data = {
+						"count": leaderboard.length,
+						"detail": leaderboard
+					}
+					res.json(data);
+				}
+				else
+				{
+					res.status(500).send("Wrong time format");
+				}
+			})
+		}
+		else
+		{
+			res.status(500).send("Wrong time format");
+		}
+    })
 
 // Middleware 
 leaderboardRouter.use('/:userId', (req, res, next)=>{
