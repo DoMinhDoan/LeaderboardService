@@ -34,7 +34,7 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 
 1. Copy .env.template -> .env then config with correctly url/post for MongoDB + Redis.
 1. There is `docker-compose` where you can setup one docker with MongoDB + Redis on localhost. Into `docker-compose` folder, run `docker-compose up`.
-1. From project folder, run `node index.js`
+1. From project folder, run `node index.js` to start your server.
 
 ## API's Testcase
 
