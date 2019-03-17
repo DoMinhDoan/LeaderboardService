@@ -4,10 +4,27 @@ const leaderboardRouter = express.Router();
 leaderboardRouter.route('/')
     .get((req, res) => {
 		var redisClient = req.app.get('redisio');
+		
 		redisClient.zrevrange("leaderboard", 0, 10, function (err, list) {
 			if (err) throw err;
-			// console.log("plain range:", list);
-			res.status(201).send(list);
+			
+			var userList = [];
+			for (i in list)
+			{
+				var redisRawKey = list[i] + "_raw";
+				redisClient.get(redisRawKey, function (error, result) {
+					if (error) {
+						console.log(error);
+						throw error;
+					}
+					
+					userList.push(result);					
+					if(userList.length == list.length)
+					{
+						res.json(userList);
+					}
+				});
+			}
 		});
     })
     .post((req, res) => {
@@ -61,11 +78,20 @@ leaderboardRouter.route('/:userId')
 			// emit one signal to client
 			var io = req.app.get('socketio');			
 			io.emit('UpdateScore', req.leaderboard.username);
-		}
-		
-		if(req.body.score)
-		{
+			
+			// update new score on MongoDB
 			req.leaderboard.score = req.body.score;
+			
+			var redisRawKey = req.params.userId + "_raw";
+			
+			var data = {
+				"username": req.leaderboard.username,
+				"score": req.body.score
+			}
+			// redisClient.set(redisRawKey, JSON.parse(data));
+			console.log('Update ->' + redisRawKey + ' = ' + JSON.stringify(data));
+			
+			redisClient.set(redisRawKey, JSON.stringify(data));
 		}
 		
 		if(req.body.username || req.body.score)
@@ -82,6 +108,12 @@ leaderboardRouter.route('/:userId')
             }
             else{
                 res.status(204).send('removed');
+				
+				// sync with Redis
+				var redisClient = req.app.get('redisio');
+				var redisRawKey = req.params.userId + "_raw";				
+				redisClient.zrem("leaderboard", req.params.userId);
+				redisClient.del(redisRawKey);
             }
         })
     })	//delete
