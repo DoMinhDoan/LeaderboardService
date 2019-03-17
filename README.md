@@ -21,10 +21,10 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 
 ## Frameworks
 
-* Database
+* __Database__
 	* MongoDB - Mongoose - for normal query
 	* Redis - for heavy query like leaderboard
-* Environment
+* __Environment__
 	* Nodejs
 	* Express
 	* SocketIO
