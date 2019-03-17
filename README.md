@@ -56,7 +56,35 @@ Implement a leaderboard service that could be consumed by a game client.  This s
 	* In here, you can see more detail about your user : the change score count and what time they did.
 	* As an administrator I should be able to see how many users updated their score in a time window. 
 		* http://localhost:3000/admin/statistics
-		* In format : `{"start":"2016-11-22T17:14:00","stop":"2020-11-22T17:14:00"}`
+		* Input in format : `{"start":"2016-11-22T17:14:00","stop":"2020-11-22T17:14:00"}`
+		
+		
+3. Postman
+	* All APIs designed that Postman can perform test quickly.
+	* GET
+		* http://localhost:3000/api/leaderboard/all
+			* Get all user information.
+		* http://localhost:3000/api/leaderboard/
+			* TOP 10 leaderboard with Redis supported.
+		* http://localhost:3000/api/leaderboard/{userID}
+			* Get info about one user via ID.
+			* Ex : `http://localhost:3000/api/leaderboard/5c8dca7aaedcda1868e01b4e`
+		* http://localhost:3000/api/leaderboard/count/{start-stop}
+			* Get info for users who upadted their score begin from start and end at stop time.
+			* Ex : `http://localhost:3000/api/leaderboard/count/1552800213-1552800214.5`
+	* POST
+		* http://localhost:3000/api/leaderboard/
+			* Added new user
+			* Json body with content need to add.
+			* Ex : `{"username":"MDoan","score":100}`
+	* PUT
+		* http://localhost:3000/api/leaderboard/{userID}
+			* Update with new info.
+			* Json body with content need to update.
+			* Ex : {"username":"HaiAnh","score":100}
+	* DELETE
+		* http://localhost:3000/api/leaderboard/{userID}
+			* Delete the user by ID.		
 
 
 ## Special Thanks
