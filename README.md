@@ -94,4 +94,4 @@ This section lists people who have contributed to this project by writing code, 
 * [Docker](https://docs.docker.com/) for local environment setup
 * [Redis](https://redis.io) for figuring out that setting high performance query
 * [Tips](https://hackernoon.com/using-redis-with-node-js-8d87a48c5dd7)
-* [Thanks Google - you are here]
+* _And everything from Google_
